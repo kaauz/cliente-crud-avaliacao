@@ -2,6 +2,7 @@ package br.com.tokiomarine.service;
 
 import br.com.tokiomarine.domain.Cliente;
 import br.com.tokiomarine.domain.Endereco;
+import br.com.tokiomarine.domain.ViaCEPResponse;
 import br.com.tokiomarine.domain.exception.ClienteNaoEncontradoException;
 import br.com.tokiomarine.mapper.ConsultaCEPMapper;
 import br.com.tokiomarine.repository.ClienteRepository;
@@ -61,16 +62,22 @@ public class ClienteTransactionService {
         InputValidator.isValidCliente(cliente);
 
         for (Endereco endereco : cliente.getEnderecos()) {
-            Endereco enderecoCompleto = buscaDadosEndereco(endereco.getCep());
+            ViaCEPResponse enderecoCompleto = buscaDadosEndereco(endereco.getCep());
             endereco.setBairro(enderecoCompleto.getBairro());
             endereco.setDdd(enderecoCompleto.getDdd());
-
+            endereco.setLogradouro(enderecoCompleto.getLogradouro());
+            endereco.setLocalidade(enderecoCompleto.getLocalidade());
+            endereco.setUniaoFederativa(enderecoCompleto.getUniaoFederativa());
+            endereco.setIbge(enderecoCompleto.getIbge());
+            endereco.setGia(enderecoCompleto.getGia());
+            endereco.setSiafi(enderecoCompleto.getSiafi());
+          //  endereco.setCliente(cliente);
         }
 
         return clienteRepository.save(cliente);
     }
 
-    public Endereco buscaDadosEndereco(String cep) {
+    public ViaCEPResponse buscaDadosEndereco(String cep) {
 
         String uriBuilder = UriComponentsBuilder
                 .fromHttpUrl(URL_VIA_CEP)
@@ -82,12 +89,13 @@ public class ClienteTransactionService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Endereco> entity = new HttpEntity<>(headers);
 
-        Endereco response = new Endereco();
+        //Endereco response = new Endereco();
+        ViaCEPResponse response = new ViaCEPResponse();
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            ResponseEntity<Endereco> responseEntity = restTemplate
-                    .exchange(uriBuilder, HttpMethod.GET, entity, Endereco.class);
+            ResponseEntity<ViaCEPResponse> responseEntity = restTemplate
+                    .exchange(uriBuilder, HttpMethod.GET, entity, ViaCEPResponse.class);
 
             if (responseEntity != null && responseEntity.getBody() != null) {
                 response = ConsultaCEPMapper.toEntity(responseEntity);

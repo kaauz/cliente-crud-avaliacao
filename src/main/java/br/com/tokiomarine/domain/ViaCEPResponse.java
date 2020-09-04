@@ -1,72 +1,46 @@
 package br.com.tokiomarine.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-
-@Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Endereco {
+public class ViaCEPResponse {
 
-    @Id
-    @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @JsonIgnore
-    @ManyToOne
-    private Cliente cliente;
-
-    @Column(nullable = false)
-    @NotEmpty
     private String cep;
 
-    @Column(nullable = false)
-    @NotEmpty
+
     private String logradouro;
 
-    @Column(nullable = false)
-    @NotEmpty
+
     private String numero;
 
-    @Column(nullable = false)
-    @NotEmpty
+
     private String complemento;
 
-    @Column(nullable = false)
-    @NotEmpty
+
     private String bairro;
 
-    @Column(nullable = false)
-    @NotEmpty
+
     private String localidade;
 
-    @Column(nullable = false)
-    @NotEmpty
+
     private String uniaoFederativa;
 
-    @Column
-    @NotEmpty
+
     private String ibge;
 
-    @Column
-    @NotEmpty
+
     private String gia;
 
-    @Column
-    @NotEmpty
+
     private String ddd;
 
-    @Column
-    @NotEmpty
+
     private String siafi;
 
     public String getCep() {
@@ -83,6 +57,14 @@ public class Endereco {
 
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
     public String getComplemento() {
@@ -148,21 +130,4 @@ public class Endereco {
     public void setSiafi(String siafi) {
         this.siafi = siafi;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
 }

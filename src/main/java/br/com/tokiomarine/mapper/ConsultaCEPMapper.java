@@ -1,13 +1,14 @@
 package br.com.tokiomarine.mapper;
 
 import br.com.tokiomarine.domain.Endereco;
+import br.com.tokiomarine.domain.ViaCEPResponse;
 import org.springframework.http.ResponseEntity;
 
 public class ConsultaCEPMapper {
 
-    public static Endereco toEntity(ResponseEntity<Endereco> responseEntity) {
+    public static ViaCEPResponse toEntity(ResponseEntity<ViaCEPResponse> responseEntity) {
 
-        return Endereco.builder()
+        return ViaCEPResponse.builder()
                 .bairro(responseEntity.getBody().getBairro())
                 .ddd(responseEntity.getBody().getDdd())
                 .gia(responseEntity.getBody().getGia())
